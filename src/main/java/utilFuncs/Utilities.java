@@ -13,6 +13,7 @@ public class Utilities {
     }
 
     public static int[] getIntArrFromLine(String line, int length) {
-        return stringArrToIntArr(line.split(" "), 3);
+
+        return stringArrToIntArr(line.split(" "), length);
     }
 }

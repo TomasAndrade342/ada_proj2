@@ -1,7 +1,5 @@
 package data;
 
-import java.awt.geom.RectangularShape;
-
 public class Request {
     private final int start;
     private final int end;

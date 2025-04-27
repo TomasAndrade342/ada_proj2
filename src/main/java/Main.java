@@ -24,7 +24,7 @@ public class Main {
             roads[i] = new Road(start, end, duration);
         }
 
-        PathFinder pf = new PathFinder(roads, numLocations, numRoads);
+        PathFinder pf = new PathFinder(roads, numLocations);
 
         int numRequests = Integer.parseInt(in.readLine());
         Request[] requests = new Request[numRequests];

@@ -1,21 +1,38 @@
 import data.Request;
 import data.Road;
+import UnionFind.UnionFindInArray;
+import utilFuncs.RoadComparator;
+
+import java.util.Arrays;
+
 
 public class PathFinder {
     private int numLocations;
-    private int numRoads;
+    private Road[] roads;
 
-    public PathFinder(Road[] roads, int numLocations, int numRoads) {
+    public PathFinder(Road[] inputRoads, int numLocations) {
         this.numLocations = numLocations;
-        this.numRoads = numRoads;
-    }
-
-    public void addRoad(int start, int end, int duration) {
-
+        this.roads = inputRoads;
     }
 
     public int getSolution(Request req) {
-        return 0;
+
+        UnionFindInArray uf = new UnionFindInArray(numLocations);
+
+        Arrays.sort(roads, new RoadComparator());
+
+        for (Road road : roads){
+            int start = uf.find(road.getStart());
+            int end = uf.find(road.getEnd());
+
+            if(start != end){
+                uf.union(start,end);
+            }
+            if (uf.find(req.getStart()) == uf.find(req.getEnd())){
+                return road.getDuration();
+            }
+        }
+        return -1;
     }
 
     public int[] getSolution(Request[] requests, int length) {
