@@ -13,13 +13,12 @@ public class PathFinder {
     public PathFinder(Road[] inputRoads, int numLocations) {
         this.numLocations = numLocations;
         this.roads = inputRoads;
+        Arrays.sort(roads, new RoadComparator());
     }
 
     public int getSolution(Request req) {
 
         UnionFindInArray uf = new UnionFindInArray(numLocations);
-
-        Arrays.sort(roads, new RoadComparator());
 
         for (Road road : roads){
             int start = uf.find(road.getStart());
