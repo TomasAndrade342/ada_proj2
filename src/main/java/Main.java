@@ -1,8 +1,10 @@
+import data.Request;
+import dataStructures.Edge;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import data.*;
 import static utilFuncs.Utilities.*;
 
 public class Main {
@@ -14,14 +16,14 @@ public class Main {
         int numLocations = firstLine[0];
         int numRoads = firstLine[1];
 
-        Road[] roads = new Road[numRoads];
+        Edge[] roads = new Edge[numRoads];
 
         for (int i = 0; i < numRoads; i++) {
             int[] currRoadLine = getIntArrFromLine(in.readLine(), 3);
             int start = currRoadLine[0];
             int end = currRoadLine[1];
             int duration = currRoadLine[2];
-            roads[i] = new Road(start, end, duration);
+            roads[i] = new Edge(start, end, duration);
         }
 
         PathFinder pf = new PathFinder(roads, numLocations);

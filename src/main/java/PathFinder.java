@@ -1,37 +1,75 @@
+import UnionFind.UnionFind;
 import data.Request;
-import data.Road;
 import UnionFind.UnionFindInArray;
-import utilFuncs.RoadComparator;
+import dataStructures.*;
 
-import java.util.Arrays;
+import java.util.*;
 
 
 public class PathFinder {
-    private int numLocations;
-    private Road[] roads;
+    private final int numLocations;
+    private final UnionFind uf;
 
-    public PathFinder(Road[] inputRoads, int numLocations) {
+    private final PriorityQueue<Edge> pq;
+    private final LinkedListGraph graph;
+
+
+    public PathFinder(Edge[] inputRoads, int numLocations) {
         this.numLocations = numLocations;
-        this.roads = inputRoads;
-        Arrays.sort(roads, new RoadComparator());
+        this.uf = new UnionFindInArray(numLocations);
+        this.pq = new PriorityQueue<>();
+        this.graph = new LinkedListGraph(numLocations);
+        pq.addAll(Arrays.asList(inputRoads));
+        executeKruskal();
+    }
+
+    private void executeKruskal() {
+        int mstFinalSize = numLocations-1;
+        int mstSize = 0;
+        while (mstSize < mstFinalSize) {
+            Edge edge = pq.poll();
+            int rep1 = uf.find(edge.firstNode());
+            int rep2 = uf.find(edge.secondNode());
+            if (rep1 != rep2) {
+                graph.addEdge(edge);
+                mstSize++;
+                uf.union(rep1, rep2);
+            }
+        }
     }
 
     public int getSolution(Request req) {
+        return dfs(req.getStart(), req.getEnd());
+    }
 
-        UnionFindInArray uf = new UnionFindInArray(numLocations);
+    private int dfs(int start, int end) {
+        boolean[] found = new boolean[numLocations];
 
-        for (Road road : roads){
-            int start = uf.find(road.getStart());
-            int end = uf.find(road.getEnd());
+        int hardness = 1;
 
-            if(start != end){
-                uf.union(start,end);
+        Queue<int[]> waiting = new LinkedList<>();
+        found[start] = true;
+
+        for (Integer node : graph.adjacentNodes(start)) {
+                waiting.add(new int[]{start, node, Math.max(hardness, graph.getWeight(hardness, node))});
+                found[node] = true;
+        }
+
+        while (!waiting.isEmpty()) {
+            int[] curr = waiting.poll();
+            if (curr[1] == end) {
+                return Math.max(curr[2], graph.getWeight(curr[0], curr[1]));
             }
-            if (uf.find(req.getStart()) == uf.find(req.getEnd())){
-                return road.getDuration();
+
+            for (Integer node : graph.adjacentNodes(curr[1])) {
+                if (!found[node]) {
+                    waiting.add(new int[]{curr[1], node, Math.max(curr[2], graph.getWeight(curr[1], node))});
+                    found[node] = true;
+                }
             }
         }
-        return -1;
+
+        return -1; // unreachable
     }
 
     public int[] getSolution(Request[] requests, int length) {
