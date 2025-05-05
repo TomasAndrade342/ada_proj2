@@ -25,6 +25,7 @@ public class LinkedListGraph {
 
     public void addEdge(Edge edge) {
         graph.get(edge.firstNode).add(edge);
+        graph.get(edge.secondNode).add(new Edge(edge.secondNode, edge.firstNode, edge.weight));
     }
 
     public void addEdge(int node1, int node2, int weight) {

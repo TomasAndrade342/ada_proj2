@@ -17,7 +17,7 @@ public class PathFinder {
     public PathFinder(Edge[] inputRoads, int numLocations) {
         this.numLocations = numLocations;
         this.uf = new UnionFindInArray(numLocations);
-        this.pq = new PriorityQueue<>();
+        this.pq = new PriorityQueue<>(Arrays.asList(inputRoads));
         this.graph = new LinkedListGraph(numLocations);
         pq.addAll(Arrays.asList(inputRoads));
         executeKruskal();
@@ -44,31 +44,26 @@ public class PathFinder {
 
     private int dfs(int start, int end) {
         boolean[] found = new boolean[numLocations];
+        Queue<int[]> waiting = new LinkedList<>(); // [node, maxEdgeWeightSoFar]
 
-        int hardness = 1;
-
-        Queue<int[]> waiting = new LinkedList<>();
         found[start] = true;
-
-        for (Integer node : graph.adjacentNodes(start)) {
-                waiting.add(new int[]{start, node, Math.max(hardness, graph.getWeight(hardness, node))});
-                found[node] = true;
-        }
+        waiting.add(new int[]{start, 0});
 
         while (!waiting.isEmpty()) {
             int[] curr = waiting.poll();
-            if (curr[1] == end) {
-                return Math.max(curr[2], graph.getWeight(curr[0], curr[1]));
-            }
+            int node = curr[0];
+            int hardness = curr[1];
 
-            for (Integer node : graph.adjacentNodes(curr[1])) {
-                if (!found[node]) {
-                    waiting.add(new int[]{curr[1], node, Math.max(curr[2], graph.getWeight(curr[1], node))});
-                    found[node] = true;
+            if (node == end) return hardness;
+
+            for (int neighbor : graph.adjacentNodes(node)) {
+                if (!found[neighbor]) {
+                    found[neighbor] = true;
+                    int weight = graph.getWeight(node, neighbor);
+                    waiting.add(new int[]{neighbor, Math.max(hardness, weight)});
                 }
             }
         }
-
         return -1; // unreachable
     }
 

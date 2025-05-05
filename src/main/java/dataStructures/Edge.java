@@ -30,20 +30,14 @@ public class Edge implements Comparable<Edge> {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Edge edge)) {
-            return false;
-        }
-        if (this.firstNode != edge.firstNode) {
-            return false;
-        }
-        return this.secondNode == edge.secondNode;
+        if (this == o) return true;
+        if (!(o instanceof Edge edge)) return false;
+        return (firstNode == edge.firstNode && secondNode == edge.secondNode) ||
+                (firstNode == edge.secondNode && secondNode == edge.firstNode);
     }
 
     @Override
     public int compareTo(Edge edge) {
-        return Integer.compare(edge.getWeight(), this.weight);
+        return Integer.compare(this.weight, edge.weight); // ascending order for Kruskal
     }
 }
