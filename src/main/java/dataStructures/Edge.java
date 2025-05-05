@@ -1,5 +1,10 @@
 package dataStructures;
 
+/*
+ * Authors:
+ *  Tomás Fonseca de Andrade, Nº 66196
+ *  Paulo André Adriano Aires, Nº 71521
+ */
 public class Edge implements Comparable<Edge> {
     int weight;
     int firstNode;
@@ -23,10 +28,12 @@ public class Edge implements Comparable<Edge> {
 
     public int secondNode() {return secondNode;}
 
+    /*
     // Pre: node == firstNode || node == secondNode
     public int oppositeNode(int node) {
         return node == firstNode ? firstNode : secondNode;
     }
+    */
 
     @Override
     public boolean equals(Object o) {

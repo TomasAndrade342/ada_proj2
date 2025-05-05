@@ -7,6 +7,11 @@ import java.io.InputStreamReader;
 
 import static utilFuncs.Utilities.*;
 
+/*
+ * Authors:
+ *  Tomás Fonseca de Andrade, Nº 66196
+ *  Paulo André Adriano Aires, Nº 71521
+ */
 public class Main {
 
     public static void main(String[] args) throws IOException {

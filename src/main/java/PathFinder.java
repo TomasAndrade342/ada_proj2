@@ -5,7 +5,11 @@ import dataStructures.*;
 
 import java.util.*;
 
-
+/*
+ * Authors:
+ *  Tomás Fonseca de Andrade, Nº 66196
+ *  Paulo André Adriano Aires, Nº 71521
+ */
 public class PathFinder {
     private final int numLocations;
     private final UnionFind uf;
@@ -20,10 +24,13 @@ public class PathFinder {
         this.pq = new PriorityQueue<>(Arrays.asList(inputRoads));
         this.graph = new LinkedListGraph(numLocations);
         pq.addAll(Arrays.asList(inputRoads));
-        executeKruskal();
+        obtainMst();
     }
 
-    private void executeKruskal() {
+    /**
+     * Obtains the minimum spanning tree ands puts it into graph
+     */
+    private void obtainMst() {
         int mstFinalSize = numLocations-1;
         int mstSize = 0;
         while (mstSize < mstFinalSize) {
@@ -39,10 +46,16 @@ public class PathFinder {
     }
 
     public int getSolution(Request req) {
-        return dfs(req.getStart(), req.getEnd());
+        return getGoodJourneyHardness(req.start(), req.end());
     }
 
-    private int dfs(int start, int end) {
+    /**
+     * Returns the hardness of the good journeys from start to end
+     * @param start - the starting location
+     * @param end - the final location
+     * @return the good journey hardness
+     */
+    private int getGoodJourneyHardness(int start, int end) {
         boolean[] found = new boolean[numLocations];
         Queue<int[]> waiting = new LinkedList<>(); // [node, maxEdgeWeightSoFar]
 
@@ -67,6 +80,12 @@ public class PathFinder {
         return -1; // unreachable
     }
 
+    /**
+     * Returns an array with the solutions of the given requests
+     * @param requests - the requests to answer
+     * @param length - the number of requests
+     * @return an array with the solutions of the given requests
+     */
     public int[] getSolution(Request[] requests, int length) {
         int[] res = new int[length];
         int curr = 0;

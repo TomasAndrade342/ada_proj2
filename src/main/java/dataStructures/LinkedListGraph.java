@@ -1,10 +1,15 @@
 package dataStructures;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+// import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+ * Authors:
+ *  Tomás Fonseca de Andrade, Nº 66196
+ *  Paulo André Adriano Aires, Nº 71521
+ */
 public class LinkedListGraph {
     List<LinkedList<Edge>> graph;
     int numNodes;
@@ -19,15 +24,22 @@ public class LinkedListGraph {
         this.numEdges = 0;
     }
 
+    /*
     public int numNodes() {return numNodes;}
 
     public int numEdges() {return numEdges;}
+    */
 
+    /**
+     * Adds a new edge to the graph. Since it's an undirected graph, a new edge is added to both nodes.
+     * @param edge - the edge to add
+     */
     public void addEdge(Edge edge) {
         graph.get(edge.firstNode).add(edge);
         graph.get(edge.secondNode).add(new Edge(edge.secondNode, edge.firstNode, edge.weight));
     }
 
+    /*
     public void addEdge(int node1, int node2, int weight) {
         addEdge(new Edge(node1, node2, weight));
     }
@@ -35,8 +47,15 @@ public class LinkedListGraph {
     public boolean edgeExists(int node1, int node2) {
         return graph.get(node1).contains(new Edge(node1, node2));
     }
+    */
 
     // Pre: edgeExists(node1, node2)
+    /**
+     * Returns the weight of the edge between node1 and node2
+     * @param node1 - the first node
+     * @param node2 - the second node
+     * @return the weight
+     */
     public int getWeight(int node1, int node2) {
         for (Edge edge : graph.get(node1)) {
             if (edge.secondNode == node2) {
@@ -46,10 +65,17 @@ public class LinkedListGraph {
         return -1; // unreachable
     }
 
+    /*
     public int degree(int node) {
         return graph.get(node).size();
     }
+    */
 
+    /**
+     * Returns a list with all nodes connected with an edge to node.
+     * @param node - the node being queried
+     * @return the list of connected nodes
+     */
     public List<Integer> adjacentNodes(int node) {
         List<Integer> res = new ArrayList<>();
         for (Edge curr : graph.get(node)) {
@@ -58,7 +84,9 @@ public class LinkedListGraph {
         return res;
     }
 
+    /*
     public List<Edge> incidentEdges(int node) {
         return graph.get(node);
     }
+    */
 }
