@@ -1,11 +1,11 @@
-package utilFuncs;
+package data;
 
 /*
  * Authors:
  *  Tomás Fonseca de Andrade, Nº 66196
  *  Paulo André Adriano Aires, Nº 71521
  */
-public class Utilities {
+public class InputUtilities {
 
 
     /**
