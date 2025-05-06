@@ -39,6 +39,15 @@ public class LinkedListGraph {
         graph.get(edge.secondNode).add(new Edge(edge.secondNode, edge.firstNode, edge.weight));
     }
 
+    /**
+     * Returns a list with all edges the given node is connected to.
+     * @param node - the node being queried
+     * @return the list of edges
+     */
+    public List<Edge> incidentEdges(int node) {
+        return graph.get(node);
+    }
+
     /*
     public void addEdge(int node1, int node2, int weight) {
         addEdge(new Edge(node1, node2, weight));
@@ -76,14 +85,5 @@ public class LinkedListGraph {
         return res;
     }
     */
-
-    /**
-     * Returns a list with all edges the given node is connected to.
-     * @param node - the node being queried
-     * @return the list of edges
-     */
-    public List<Edge> incidentEdges(int node) {
-        return graph.get(node);
-    }
 
 }
